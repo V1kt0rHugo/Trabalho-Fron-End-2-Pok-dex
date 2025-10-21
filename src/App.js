@@ -1,11 +1,11 @@
 import React from "react";
-import {PokemonCard} from './Components/PokémonCard'
+import { Pokedex } from './Components/Pokédex.jsx'
 
 class App extends React.Component{
   render(){
   return (
     <div>
-      <PokemonCard/>
+      <Pokedex/>
 
     </div>
   );
