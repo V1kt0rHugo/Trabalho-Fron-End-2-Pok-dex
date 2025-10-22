@@ -17,7 +17,6 @@ const typeColors = {
   normal: '#A8A878',
 };
 
-// Container principal que vira o grid
 export const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -27,7 +26,6 @@ export const Container = styled.div`
   padding: 0 20px;
 `;
 
-// O card individual
 export const Card = styled.div`
   background-color: #f0f0f0;
   border-radius: 10px;
@@ -36,42 +34,42 @@ export const Card = styled.div`
   flex-direction: column;
   align-items: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
 `;
 
-// A imagem
 export const Imagem = styled.img`
   width: 120px;
   height: 120px;
 `;
 
-// Div para as informações de texto
 export const Info = styled.div`
   text-align: center;
   margin-top: 10px;
 `;
 
-// O número
 export const DexNumber = styled.p`
   color: #666;
   font-weight: bold;
   margin: 5px 0;
 `;
 
-// O nome
 export const PokemonName = styled.h3`
   margin: 5px 0;
   text-transform: capitalize;
   color: #333;
 `;
 
-// Container dos tipos
 export const TypesContainer = styled.div`
   margin-top: 10px;
   display: flex;
   gap: 5px;
 `;
 
-// A badge de cada tipo
 export const Types = styled.span`
   padding: 3px 10px;
   border-radius: 5px;

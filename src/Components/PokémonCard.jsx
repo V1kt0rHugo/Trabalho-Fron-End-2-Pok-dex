@@ -3,12 +3,12 @@ import * as S from './PokémonCard.style.jsx';
 
 export class PokemonCard extends React.Component {
   render() {
-    const { pokemonData } = this.props;
+    const { pokemonData, onCardClick } = this.props;
 
     if (!pokemonData) return null;
 
     return (
-      <S.Card>
+      <S.Card onClick={onCardClick}>
         <S.Imagem
           src={pokemonData.sprites.front_default}
           alt={pokemonData.name}
@@ -28,3 +28,5 @@ export class PokemonCard extends React.Component {
     );
   }
 }
+
+export default PokemonCard;
