@@ -78,3 +78,12 @@ export const Types = styled.span`
   text-transform: uppercase;
   background-color: ${(props) => typeColors[props.type] || '#A8A878'};
 `;
+
+export const NotFoundMessage = styled.p`
+  /* Faz a mensagem ocupar a largura inteira do grid */
+  grid-column: 1 / -1; 
+  text-align: center;
+  font-size: 1.2rem;
+  color: #666;
+  padding: 20px;
+`;
