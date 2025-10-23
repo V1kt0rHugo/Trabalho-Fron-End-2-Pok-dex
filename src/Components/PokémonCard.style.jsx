@@ -18,16 +18,18 @@ const typeColors = {
 };
 
 export const Container = styled.div`
+  background-color: #f3f3f6; 
+  min-height: 100vh;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 20px;
   max-width: 1200px;
-  margin: 20px auto;
+  margin: 40px auto;
   padding: 0 20px;
 `;
 
 export const Card = styled.div`
-  background-color: #f0f0f0;
+  background-color: #ffffff; 
   border-radius: 10px;
   padding: 15px;
   display: flex;

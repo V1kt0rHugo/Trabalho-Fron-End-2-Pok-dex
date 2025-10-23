@@ -90,7 +90,7 @@ export const StatsAndBiologyGrid = styled.div`
 `;
 
 export const InfoSection = styled.div`
-  background-color: #f7f7f7;
+  background-color: #f9fafb; 
   border-radius: 8px;
   padding: 15px;
   margin-bottom: 20px;
@@ -99,8 +99,9 @@ export const InfoSection = styled.div`
 export const SectionTitle = styled.h3`
   margin: 0 0 15px 0;
   text-align: left;
-  border-bottom: 2px solid #eee;
+  border-bottom: 2px solid #ef4444; 
   padding-bottom: 10px;
+  color: #1f2937; // Mantém o texto escuro
 `;
 
 export const StatsList = styled.ul`

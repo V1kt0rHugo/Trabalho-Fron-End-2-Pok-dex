@@ -9,7 +9,6 @@ const pokemonTypes = [
 ];
 
 //Lista de Gerações para Filtrar
-
 const generations = [
   { name: "Generation 1", value: "gen1" },
   { name: "Generation 2", value: "gen2" },

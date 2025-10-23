@@ -1,10 +1,10 @@
-
 import React from 'react';
 import axios from 'axios';
 import PokemonCard from './PokémonCard.jsx'
 import PokemonDetails from './PokémonDetails.jsx'
 import Header from './Headers.jsx'
-import * as S from './PokémonCard.style.jsx'; 
+import * as S from './PokémonCard.style.jsx';
+//Dizendo quais pokemons estao presentes em cada geracao com min e max
 
 const generationFilters = {
   "gen1": { min: 1, max: 151 },
@@ -17,7 +17,8 @@ const generationFilters = {
   "gen8": { min: 810, max: 905 },
 };
 
-export class Pokedex extends React.Component {
+class Pokedex extends React.Component {
+    //Estados de Pokedex
   state = {
     pokemon: [],
     isLoading: true,
@@ -27,41 +28,68 @@ export class Pokedex extends React.Component {
     filterType2: "",
     filterGen: "",
   };
-
   componentDidMount() {
     this.getPokemons();
   }
 
   getPokemons = async () => {
     try {
+        //Descrição mais detalhada dessa parte pois foi uma parte dificil de entender
       const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=905');
+      //response.data: Esta é a propriedade do objeto axios que contém o corpo 
+      // (body) da resposta do servidor, já em formato de objeto JavaScript.
+      //.results: Esta é uma chave específica que a PokéAPI usa no endpoint 
+      // /pokemon. A resposta da API não é apenas a lista, mas sim um objeto 
+      // maior ({ count: ..., next: ..., results: [...] }). 
+      // Esta expressão acessa o array que está dentro da chave results
+      //listaSimplesPokemon e um array de objetos simples que possui 905 objetos
+      //com nome e uma string url
       const listaSimplesDePokemon = response.data.results;
       const dadosPokemonDetalhados = [];
-
+      //Cria um Loop (for... of) que pass por cada um dos 905 
+      // itens de listaSimplesDePokemon
+      // a cada volta do loop a variavel pokemon recebera o valor do item atual
+      //Na 1ª volta: pokemon = { name: 'bulbasaur', url: '.../1/' }
+      //Na 2ª volta: pokemon = { name: 'ivysaur', url: '.../2/' }
+      //...e assim por diante.
       for (const pokemon of listaSimplesDePokemon) {
+        //axios.get(...): Faz a chamada de rede para a URL de detalhes.
+        //apos a resposta respostaDetalhada recebe a resposta completa
+        //do axios com data status etc nessa variavel
         const respostaDetalhada = await axios.get(pokemon.url);
+        //respostaDetalhada.data: Acessa o objeto de resposta do 
+        // axios e pega o corpo (body) dos dados. Este é o objeto completo 
+        // do Pokémon (com id, name, sprites, types, stats, etc.).
+        //.push coloca a resposta completa no nosso array criado pra armazenar
+        //justamente isso
         dadosPokemonDetalhados.push(respostaDetalhada.data);
       }
-
+      //o estado pokemon agora e atualizado recebendo as informacoes detalhadas
+      //obtidas anteriormente em dadosPokemonDetalhados
       this.setState({
         pokemon: dadosPokemonDetalhados,
+        //retira a tela de carregamento
         isLoading: false,
       });
+
+      //tratamento de erro
     } catch (error) {
       console.error("Erro ao buscar Pokémon", error);
       this.setState({ isLoading: false });
     }
   };
 
+  //funcoes de callback que sao passadas para os filhos
+
+  //PokemonCard chama essa funcao quando clicado
   handleCardClick = (pokemonData) => {
     this.setState({ selectedPokemon: pokemonData });
   };
-
+  //PokemonDetails chama essa funcao para se fechar
   handleCloseDetails = () => {
     this.setState({ selectedPokemon: null });
   };
-
- // Funções que são passadas ao Headers: Pesquisa e Filtros
+  //Headers chama essas 4 funcoes para atualizar os filtros
   handleSearchChange = (event) => {
     this.setState({ searchQuery: event.target.value });
   };
@@ -127,7 +155,7 @@ export class Pokedex extends React.Component {
       });
       //Aciono headers e suas funcoes e estados sao passadas como props
     return (
-      <div>
+        <div>
         <Header
           searchQuery={searchQuery}
           onSearchChange={this.handleSearchChange}
@@ -140,6 +168,11 @@ export class Pokedex extends React.Component {
         />
 
         <S.Container>
+            {/* 
+            se a condicao for verdadeira (tamanho de filteredPokemon > 0)
+            executa o bloco de código abaixo que percorre a lista de 
+            filtered pokemon e redenriza um pokemonCard para cada pokemon
+            */}
           {filteredPokemon.length > 0 ? (
             filteredPokemon.map((poke) => {
               return (
@@ -151,19 +184,23 @@ export class Pokedex extends React.Component {
               );
             })
           ) : (
+            //retorna um FeedBack para o usuário caso for falso
             <S.NotFoundMessage>
               Nenhum Pokémon encontrado.
             </S.NotFoundMessage>
           )}
         </S.Container>
-
+          {/*
+          se selectedPokemon nao for nulo o componente PokemonDetails sera 
+          renderizado
+          */}
         {selectedPokemon && (
           <PokemonDetails 
             pokemon={selectedPokemon} 
             onClose={this.handleCloseDetails} 
           />
         )}
-      </div>
+        </div>
     );
   }
 }
