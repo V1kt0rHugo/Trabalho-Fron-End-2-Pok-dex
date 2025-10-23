@@ -12,11 +12,14 @@ export class PokemonCard extends React.Component {
   //so vai ate a gen 8
     if (!pokemonData) return null;
 
+    const imageUrl = pokemonData.sprites.other['official-artwork'].front_default;
+
+
     return (
       <S.Card onClick={onCardClick}>
         {/* Mostra a imagem, usando a URL vinda das props */}
         <S.Imagem
-          src={pokemonData.sprites.front_default}
+          src={imageUrl}
           alt={pokemonData.name}
         />
         <S.Info>

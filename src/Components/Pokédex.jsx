@@ -6,16 +6,6 @@ import Header from './Headers.jsx'
 import * as S from './PokémonCard.style.jsx';
 //Dizendo quais pokemons estao presentes em cada geracao com min e max
 
-const generationFilters = {
-  "gen1": { min: 1, max: 151 },
-  "gen2": { min: 152, max: 251 },
-  "gen3": { min: 252, max: 386 },
-  "gen4": { min: 387, max: 493 },
-  "gen5": { min: 494, max: 649 },
-  "gen6": { min: 650, max: 721 },
-  "gen7": { min: 722, max: 809 },
-  "gen8": { min: 810, max: 905 },
-};
 
 class Pokedex extends React.Component {
     //Estados de Pokedex
@@ -26,7 +16,6 @@ class Pokedex extends React.Component {
     searchQuery: "", 
     filterType1: "",
     filterType2: "",
-    filterGen: "",
   };
   componentDidMount() {
     this.getPokemons();
@@ -35,7 +24,7 @@ class Pokedex extends React.Component {
   getPokemons = async () => {
     try {
         //Descrição mais detalhada dessa parte pois foi uma parte dificil de entender
-      const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=905');
+      const response = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=151');
       //response.data: Esta é a propriedade do objeto axios que contém o corpo 
       // (body) da resposta do servidor, já em formato de objeto JavaScript.
       //.results: Esta é uma chave específica que a PokéAPI usa no endpoint 
@@ -101,14 +90,10 @@ class Pokedex extends React.Component {
   handleType2Change = (event) => {
     this.setState({ filterType2: event.target.value });
   };
-  
-  handleGenChange = (event) => {
-    this.setState({ filterGen: event.target.value });
-  };
 
   render() {
     // Desestruturação
-    const { pokemon, isLoading, selectedPokemon, searchQuery, filterType1, filterType2, filterGen } = this.state;
+    const { pokemon, isLoading, selectedPokemon, searchQuery, filterType1, filterType2 } = this.state;
     //Verifico se isLoading e true e escrevo uma mensagem para o usuario saber que a pagina esta carregando
     if (isLoading) {
       return <h1>Carregando Pokédex...</h1>;
@@ -140,19 +125,8 @@ class Pokedex extends React.Component {
         // tipo e "flying" para passar deste)
         if (!filterType2) return true;
         return poke.types.some(typeInfo => typeInfo.type.name === filterType2);
-      })//pega os pokemons restantes que sobraram dos filtros anteriores
-      .filter(poke => {
-        //se este filtro estiver vazio aprova o pokemon
-        if (!filterGen) return true;
-
-        //caso contrario (ex: "gen1") ele busca os limites de ID em 
-        // (generationFilters)
-
-        const limits = generationFilters[filterGen];
-        //retorna 'true apenas se o ID estiver dentro do limite ex:(gen 1
-        //1 a 151)
-        return poke.id >= limits.min && poke.id <= limits.max;
       });
+        
       //Aciono headers e suas funcoes e estados sao passadas como props
     return (
         <div>
@@ -163,8 +137,6 @@ class Pokedex extends React.Component {
           onType1Change={this.handleType1Change}
           filterType2={filterType2}
           onType2Change={this.handleType2Change}
-          filterGen={filterGen}
-          onGenChange={this.handleGenChange}
         />
 
         <S.Container>

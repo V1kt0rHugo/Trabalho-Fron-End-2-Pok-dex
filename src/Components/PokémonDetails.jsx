@@ -84,9 +84,12 @@ class PokémonDetails extends React.Component {
       // Para cada Pokémon na evolução (ex: Charmander), busca seus dados...
       const pokeResponse = await axios.get(`https://pokeapi.co/api/v2/pokemon/${speciesName}`);
       //...só para pegar a imagem (sprite) dele.
+
+      const imageUrl = pokeResponse.data.sprites.other['official-artwork'].front_default;
+
       evoChain.push({
         name: speciesName,
-        imageUrl: pokeResponse.data.sprites.front_default,
+        imageUrl: imageUrl
       });
       // Pula para o próximo elo da cadeia (ex: Charmeleon)
       currentEvo = currentEvo.evolves_to[0];
